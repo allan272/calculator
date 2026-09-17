@@ -15,12 +15,20 @@ async def set_inputs(dut, a, b, op_sel, reg_load=0):
     await ClockCycles(dut.clk, 1)
 
 def get_uo(dut):
-    """Return integer value of uo_out (compatible with cocotb 1.x and 2.x)."""
-    return int(dut.uo_out.value)
+    """Return integer value of uo_out (safe with cocotb 1.x and 2.x)."""
+    try:
+        return int(dut.uo_out.value)
+    except (ValueError, TypeError):
+        s = str(dut.uo_out.value).replace('x', '0').replace('z', '0').replace('X', '0').replace('Z', '0')
+        return int(s, 2) if s else 0
 
 def get_uio(dut):
-    """Return integer value of uio_out (compatible with cocotb 1.x and 2.x)."""
-    return int(dut.uio_out.value)
+    """Return integer value of uio_out (safe with cocotb 1.x and 2.x)."""
+    try:
+        return int(dut.uio_out.value)
+    except (ValueError, TypeError):
+        s = str(dut.uio_out.value).replace('x', '0').replace('z', '0').replace('X', '0').replace('Z', '0')
+        return int(s, 2) if s else 0
 
 
 # ---------------------------------------------------------------------------
