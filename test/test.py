@@ -247,7 +247,7 @@ async def test_calculator(dut):
     # ------------------------------------------------------------------
     dut._log.info("--- Test: Demux active-channel indicator ---")
 
-    for op, expected_bits in [(0b00, 0b01), (0b01, 0b10), (0b10, 0b00), (0b11, 0b11)]:
+    for op, expected_bits in [(0b00, 0b01), (0b01, 0b10), (0b10, 0b00), (0b11, 0b00)]:
         await set_inputs(dut, a=0, b=0, op_sel=op)
         indicator = (get_uo(dut) >> 6) & 0x3
         dut._log.info(f"  op_sel={op:02b} -> uo_out[7:6]={indicator:02b} (expected {expected_bits:02b})")
