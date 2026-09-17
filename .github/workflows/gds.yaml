@@ -38,10 +38,13 @@ jobs:
         uses: TinyTapeout/tt-gds-action/gl_test@ttihp26b
 
   viewer:
-    needs: gds
+    needs: [gds, precheck, gl_test]
     runs-on: ubuntu-24.04
     permissions:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: TinyTapeout/tt-gds-action/viewer@ttihp26b
